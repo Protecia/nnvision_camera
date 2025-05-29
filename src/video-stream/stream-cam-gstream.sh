@@ -1,0 +1,2 @@
+libcamera-vid -t 0 --inline --codec h264 --width 640 --height 480 --framerate 10 -o - | \
+gst-launch-1.0 -v fdsrc do-timestamp=true ! h264parse ! queue ! rtspclientsink protocols=tcp location=rtsps://mtx.protecia.net:8555/protecia

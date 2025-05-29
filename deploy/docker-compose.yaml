@@ -1,0 +1,12 @@
+services:
+
+  service-protecia-camera:
+    image: rg.fr-par.scw.cloud/protecia/nnvision-camera:${IMAGE_TAG}
+    container_name: service-protecia-camera
+    restart: unless-stopped
+    environment:
+      - TOKEN_SERVER=${TOKEN_SERVER}
+    command: |
+      sh -c "
+      /App/start.sh
+      "
