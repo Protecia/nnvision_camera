@@ -1,0 +1,38 @@
+[build-system]
+requires = [
+    "setuptools>=61.0",
+    "wheel",
+    "setuptools-git-versioning"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools-git-versioning]
+version_format = "{tag}"
+
+[project]
+name = "nnvision_camera"
+description = "Client library for the nnvision camera API"
+authors = [{ name="Julien Jehl", email="julien.jehl@protecia.net" }]
+license = { text = "MIT" }
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "pyzbar>=0.1.9",
+    "pillow>=11.2.1",
+    "python-crontab>=3.2.0",
+    "requests>=2.32.3"
+]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent"
+]
+
+[project.urls]
+"Homepage" = "https://github.com/Protecia/nnvision_camera"
+"Source" = "https://github.com/Protecia/nnvision_camera.git"
+
+[project.scripts]
+nnvision-protecia = "main:main"
+
+[tool.setuptools.package-data]
+"nnvision_camera" = ["start.sh"]

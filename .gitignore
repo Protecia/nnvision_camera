@@ -1,1 +1,4 @@
 .env
+nnvision_camera_venv
+dist/
+*.egg-info
