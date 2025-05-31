@@ -5,6 +5,7 @@ on:
     tags:
       - '*.*.*'
 
+jobs:
   build-and-push:
     name: "Make Pypi package"
     runs-on: ubuntu-latest
