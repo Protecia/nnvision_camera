@@ -1,9 +1,9 @@
 name: CI - Build, Push and Deploy Docker Image
 
-#on:
-#  push:
-#    tags:
-#      - '*.*.*'
+on:
+  push:
+    tags:
+      - '*.*.*'
 
 jobs:
   check_files_changed:
