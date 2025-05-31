@@ -1,1 +1,1 @@
-fusermount -u /home/jjehl/nnvision_camera
+fusermount -uz /home/jjehl/nnvision_camera
