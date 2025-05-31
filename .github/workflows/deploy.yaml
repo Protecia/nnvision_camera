@@ -1,19 +1,46 @@
 name: CI - Build, Push and Deploy Docker Image
 
 on:
-  push:
-    tags:
-      - '*.*.*'
+  release:
+    types: [published]
 
 jobs:
+  prepare:
+    name: "Prepare code"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Set variables for release
+        if: github.event_name == 'release'
+        run: |
+          echo "IMAGE_TAG=${{ github.event.release.tag_name }}" >> "$GITHUB_ENV"
+          
+      - name: Inject version in pyproject.toml
+        if: env.IMAGE_TAG != ''
+        run: |
+          echo "Version extraite du tag : $IMAGE_TAG"
+          # remplace (en place) la première ligne qui commence par version =
+          sed -i -E "0,/^version = \".*\"/s//version = \"${IMAGE_TAG}\"/" pyproject.toml
+          echo "====== pyproject.toml (après) ======"
+          grep -n "^version" -A1 -B1 pyproject.toml
+
+      - name: Upload code as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: code
+          path: |
+            .
+
   build-and-push:
     name: "Make Pypi package"
     runs-on: ubuntu-latest
     steps:
-
-      - uses: actions/checkout@v4
+      - name: Download code artifact
+        uses: actions/download-artifact@v4
         with:
-          fetch-depth: 0
+          name: code
+          path: .
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -23,10 +50,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install build twine setuptools-git-versioning
-
-      - name: Fetch tags
-        run: git fetch --tags
+          pip install build twine
 
       - name: Build distributions
         run: python -m build
