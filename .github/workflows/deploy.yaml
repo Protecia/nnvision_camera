@@ -23,6 +23,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install build twine setuptools-git-versioning
 
+      - name: Fetch tags
+        run: git fetch --tags
+
       - name: Build distributions
         run: python -m build
 
