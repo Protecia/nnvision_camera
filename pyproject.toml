@@ -36,4 +36,4 @@ classifiers = [
 nnvision-protecia = "main:main"
 
 [tool.setuptools.package-data]
-"protecia_start" = ["start-protecia-cam.sh"]
+"nnvision_camera" = ["start-protecia-cam.sh"]
