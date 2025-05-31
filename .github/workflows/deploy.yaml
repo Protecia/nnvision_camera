@@ -5,29 +5,8 @@ on:
     tags:
       - '*.*.*'
 
-jobs:
-  check_files_changed:
-    name: "Check changes"
-    runs-on: ubuntu-latest
-    # Declare outputs for next jobs
-    outputs:
-      deploy_changed: ${{ steps.changed-files-specific.outputs.any_changed }}
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          # Checkout as many commits as needed for the diff
-          fetch-depth: 0
-      - name: Check if any file in deploy directory has changed
-        id: changed-files-specific
-        uses: tj-actions/changed-files@v34
-        with:
-          files: |
-            src/**
-
   build-and-push:
     name: "Make Pypi package"
-    needs: check_files_changed
-    if: needs.check_files_changed.outputs.deploy_changed == 'true'
     runs-on: ubuntu-latest
     steps:
 
