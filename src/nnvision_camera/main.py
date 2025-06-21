@@ -17,7 +17,6 @@ def main():
     except:
         # get the gr code
 
-
     # si erreur, attend un QR code
     print("Hello depuis mon script !")
 
