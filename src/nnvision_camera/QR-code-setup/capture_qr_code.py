@@ -13,8 +13,8 @@ os.makedirs(IMAGES_DIR, exist_ok=True)
 
 # Lancement de libcamera-vid + ffmpeg en pipe pour extraire une image/sec
 ffmpeg_cmd = (
-    f"libcamera-vid -t 0 --mode 1920:1080:10:P --framerate 5 --inline -o - | "
-    f"ffmpeg -hide_banner -loglevel error -i pipe:0 -vf fps=2 {IMAGES_DIR}/image_%04d.jpg"
+    f"libcamera-vid -t 0 --width 1920 --height 1080 --framerate 3 --inline -o - | "
+    f"ffmpeg -hide_banner -loglevel error -i pipe:0 -vf fps=3 {IMAGES_DIR}/image_%04d.jpg"
 )
 
 # Lance ffmpeg dans un subprocess (bash pour gérer le pipe)
@@ -25,6 +25,7 @@ print("Capture en cours... (Ctrl+C pour arrêter)")
 try:
     while True:
         # Liste les images par ordre de création (la plus récente en premier)
+
         images = sorted(
             glob.glob(os.path.join(IMAGES_DIR, "image_*.jpg")),
             key=os.path.getmtime,
@@ -33,7 +34,6 @@ try:
         if images:
             latest_image = images[0]
             print(f"Image la plus récente : {latest_image}")
-
             # Exemple de traitement : décoder un QR code (si besoin)
             try:
                 img = Image.open(latest_image)
@@ -42,12 +42,10 @@ try:
                     print(f"QR Code détecté : {obj.data.decode('utf-8')}")
             except Exception as e:
                 print(f"Erreur lecture/analyse image : {e}")
-
             # Supprime les images plus anciennes pour ne garder que les MAX_IMAGES plus récentes
             for old_img in images[MAX_IMAGES:]:
                 os.remove(old_img)
-
-        time.sleep(1)
+        time.sleep(0.2)
 
 except KeyboardInterrupt:
     print("Arrêt demandé. Fermeture du processus ffmpeg...")
