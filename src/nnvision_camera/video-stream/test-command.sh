@@ -23,7 +23,8 @@ sudo nano /boot/firmware/config.txt
 #Find the line: camera_auto_detect=1, update it to:
 camera_auto_detect=0
 #Find the line: [all], add the following item under it:
-dtoverlay=ov5647
+#dtoverlay=ov5647
+dtoverlay=imx462
 #Save and reboot.
 
 # Change resolution

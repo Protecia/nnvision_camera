@@ -13,8 +13,8 @@ os.makedirs(IMAGES_DIR, exist_ok=True)
 
 # Lancement de libcamera-vid + ffmpeg en pipe pour extraire une image/sec
 ffmpeg_cmd = (
-    f"libcamera-vid -t 0 --width 1280 --height 720 --framerate 5 --inline -o - | "
-    f"ffmpeg -hide_banner -loglevel error -i pipe:0 -vf fps=1 {IMAGES_DIR}/image_%04d.jpg"
+    f"libcamera-vid -t 0 --mode 1920:1080:10:P --framerate 5 --inline -o - | "
+    f"ffmpeg -hide_banner -loglevel error -i pipe:0 -vf fps=2 {IMAGES_DIR}/image_%04d.jpg"
 )
 
 # Lance ffmpeg dans un subprocess (bash pour gérer le pipe)
