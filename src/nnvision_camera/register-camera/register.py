@@ -8,9 +8,10 @@ from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 from getpass import getpass
 from requests.auth import HTTPBasicAuth
+import time
 
 # ========= Configuration =========
-DRF_ENDPOINT = os.environ.get("DRF_ENDPOINT", "https://example.com/api/devices/register/")
+DRF_ENDPOINT = os.environ.get("DRF_ENDPOINT", "http://192.168.1.38:8000/api/devices/register/")
 BASIC_USER = os.environ.get("BASIC_USER")
 BASIC_PASS = os.environ.get("BASIC_PASS")
 # =================================
@@ -69,6 +70,7 @@ def main():
     print(f"The serial number for the SD card is {sd_id}")
     derived_pwd = derive_password(rpi_serial, sd_id)
     print(f"The derived password is {derived_pwd}")
+    time.sleep(1)  # pour que l'utilisateur ait le temps de lire
 
     # --- Payload minimal ---
     payload = {"password": derived_pwd}
